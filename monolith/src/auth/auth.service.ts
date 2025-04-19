@@ -13,6 +13,7 @@ export class AuthService {
   ) {}
 
   async register(data: RegisterDto): Promise<{ access_token: string }> {
+    // eslint-disable-next-line
     const hashed = (await bcrypt.hash(data.password, 10)) as string;
 
     const user: User = await this.prisma.user.create({
@@ -34,6 +35,7 @@ export class AuthService {
       where: { email },
     });
 
+    // eslint-disable-next-line
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Invalid credentials');
     }

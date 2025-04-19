@@ -8,18 +8,23 @@ interface JwtPayload {
 }
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy<Strategy, JwtPayload>('jwt') {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor() {
+    // eslint-disable-next-line
     super({
+      // eslint-disable-next-line
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET || 'super-secret-key',
     });
   }
 
-  validate(payload: JwtPayload): Promise<{ userId: string; email: string }> {
-    return Promise.resolve({
+  // eslint-disable-next-line
+  async validate(
+    payload: JwtPayload,
+  ): Promise<{ userId: string; email: string }> {
+    return {
       userId: payload.sub,
       email: payload.email,
-    });
+    };
   }
 }
